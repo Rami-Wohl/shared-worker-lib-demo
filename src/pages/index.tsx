@@ -47,9 +47,21 @@ export default function Home() {
           </h1>
           <p>
             Navigate to this page in multiple browser tabs/windows and click the
-            button to see the web-channel-message library in action. Select
-            'broadcast' mode to only trigger a function in all other instances
-            of the application, or 'all' mode to trigger in every instance.
+            button to see the{" "}
+            <span className="inline-block cursor-pointer text-black underline transition-colors duration-1000 hover:text-white">
+              <a
+                href={
+                  "https://www.npmjs.com/package/@r_wohl/web-channel-message"
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                web-channel-message library
+              </a>
+            </span>{" "}
+            in action. Select 'broadcast' mode to only trigger a function in all
+            other instances of the application, or 'all' mode to trigger in
+            every instance.
           </p>
           <div className="my-4 flex flex-row gap-4">
             <button
