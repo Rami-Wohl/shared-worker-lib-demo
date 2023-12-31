@@ -65,16 +65,20 @@ export default function Home() {
           </p>
           <div className="my-4 flex flex-row gap-4">
             <button
-              className={`w-28 rounded-md bg-black bg-opacity-60 p-2 text-sm font-light uppercase text-white ${
-                messageMode === "all" ? "bg-white text-black" : ""
+              className={`w-28 rounded-md  bg-opacity-60 p-2 text-sm font-light uppercase ${
+                messageMode === "all"
+                  ? "bg-white text-black"
+                  : "bg-black text-white"
               }`}
               onClick={() => setMessageMode("all")}
             >
               All
             </button>
             <button
-              className={`w-28 rounded-md bg-black bg-opacity-60 p-2 text-sm font-light uppercase text-white ${
-                messageMode === "broadcast" ? "bg-white text-black" : ""
+              className={`w-28 rounded-md bg-opacity-60 p-2 text-sm font-light uppercase ${
+                messageMode === "broadcast"
+                  ? "bg-white text-black"
+                  : "bg-black text-white"
               }`}
               onClick={() => setMessageMode("broadcast")}
             >
