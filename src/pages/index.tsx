@@ -87,25 +87,41 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <button
-              className="w-28 rounded-md bg-black bg-opacity-60 p-2 text-sm font-light uppercase text-white"
+              className={`w-28 rounded-md bg-opacity-60 p-2 text-sm font-light uppercase ${
+                bgColor === "bg-green-500"
+                  ? "bg-white text-black"
+                  : "bg-black text-white"
+              }`}
               onClick={() => handleClick("bg-green-500")}
             >
               Green
             </button>
             <button
-              className="w-28 rounded-md bg-black bg-opacity-60 p-2 text-sm font-light uppercase text-white"
+              className={`w-28 rounded-md bg-opacity-60 p-2 text-sm font-light uppercase ${
+                bgColor === "bg-red-500"
+                  ? "bg-white text-black"
+                  : "bg-black text-white"
+              }`}
               onClick={() => handleClick("bg-red-500")}
             >
               Red
             </button>
             <button
-              className="w-28 rounded-md bg-black bg-opacity-60 p-2 text-sm font-light uppercase text-white"
+              className={`w-28 rounded-md bg-opacity-60 p-2 text-sm font-light uppercase ${
+                bgColor === "bg-blue-500"
+                  ? "bg-white text-black"
+                  : "bg-black text-white"
+              }`}
               onClick={() => handleClick("bg-blue-500")}
             >
               Blue
             </button>
             <button
-              className="w-28 rounded-md bg-black bg-opacity-60 p-2 text-sm font-light uppercase text-white"
+              className={`w-28 rounded-md bg-opacity-60 p-2 text-sm font-light uppercase ${
+                bgColor === "bg-yellow-500"
+                  ? "bg-white text-black"
+                  : "bg-black text-white"
+              }`}
               onClick={() => handleClick("bg-yellow-500")}
             >
               Yellow
