@@ -26,8 +26,8 @@ export default function Home() {
 
     setInstances(channel.connections);
 
-    const observer1 = new ChannelObserver(anotherChannel, (data) => {
-      const payload = data.payload as ActionType;
+    const observer1 = new ChannelObserver(channel, (message) => {
+      const payload = message.payload as ActionType;
       if (payload) {
         setMessageMode(payload);
       }
@@ -35,8 +35,8 @@ export default function Home() {
 
     const observer2 = new ChannelObserver(
       anotherChannel,
-      (data) => {
-        console.log("I'm observing messages with a custom key", data);
+      (message) => {
+        console.log("I'm observing messages with a custom key", message);
       },
       "custom",
     );
@@ -75,9 +75,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className={`flex min-h-screen flex-col items-center font-mono ${bgColor}`}
+        className={`flex min-h-screen flex-col items-center justify-center font-mono ${bgColor}`}
       >
-        <div className="container flex max-w-[80%] flex-col items-center justify-center gap-10 py-8 md:max-w-[50%] ">
+        <div className="container flex max-w-[80%] flex-col items-center justify-center gap-6 py-8 md:max-w-[50%] ">
           <h1 className="font-mono text-4xl text-white">
             Web Channel Message demo{" "}
             <span className="text-black">x{instances}</span>
@@ -164,6 +164,22 @@ export default function Home() {
               Yellow
             </button>
           </div>
+          <footer className="justify center my-4 flex flex-col items-center gap-2">
+            <div>
+              Check out this demo's{" "}
+              <span className="inline-block cursor-pointer text-black underline transition-colors duration-1000 hover:text-white">
+                <a
+                  href={"https://github.com/Rami-Wohl/shared-worker-lib-demo"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  source code
+                </a>
+              </span>{" "}
+              on GitHub
+            </div>
+            <div>&copy; Rami Wohl {new Date().getFullYear()}</div>
+          </footer>
         </div>
       </main>
     </>

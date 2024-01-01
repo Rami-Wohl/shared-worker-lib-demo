@@ -10,7 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@r_wohl/web-channel-message": "^3.0.1",
+    "@r_wohl/web-channel-message": "^3.0.2",
     "@t3-oss/env-nextjs": "^0.7.1",
     "next": "^14.0.3",
     "react": "18.2.0",
