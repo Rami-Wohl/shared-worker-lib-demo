@@ -1,8 +1,13 @@
-import SharedWebChannel from "@r_wohl/web-channel-message";
+import {
+  SharedWebChannel,
+  ChannelObserver,
+  ActionType,
+} from "@r_wohl/web-channel-message";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
 const channel = new SharedWebChannel();
+const anotherChannel = new SharedWebChannel("second-channel");
 
 type BackgroundColor =
   | "bg-green-500"
@@ -12,18 +17,50 @@ type BackgroundColor =
 
 export default function Home() {
   const [bgColor, setBgColor] = useState<BackgroundColor>("bg-green-500");
-  const [messageMode, setMessageMode] = useState<"all" | "broadcast">("all");
-  const [instances, setInstances] = useState<number>(1);
+  const [messageMode, setMessageMode] = useState<ActionType>("all");
+  const [instances, setInstances] = useState<number>();
 
   useEffect(() => {
     channel.registerCallback("set-bg-color", setBgColor);
+    channel.onConnectionsUpdate(setInstances);
+
+    setInstances(channel.connections);
+
+    const observer1 = new ChannelObserver(anotherChannel, (data) => {
+      const payload = data.payload as ActionType;
+      if (payload) {
+        setMessageMode(payload);
+      }
+    });
+
+    const observer2 = new ChannelObserver(
+      anotherChannel,
+      (data) => {
+        console.log("I'm observing messages with a custom key", data);
+      },
+      "custom",
+    );
+
+    return () => {
+      anotherChannel.subject.unsubscribe(observer1);
+      anotherChannel.subject.unsubscribe(observer2, "custom");
+    };
   }, []);
 
-  function handleClick(color: BackgroundColor) {
+  function handleClickColor(color: BackgroundColor) {
     channel.sendMessage({
-      type: messageMode,
+      type: "callback",
+      action: messageMode,
       payload: color,
       callbackKey: "set-bg-color",
+    });
+  }
+
+  function handleClickMode(type: ActionType) {
+    anotherChannel.sendMessage({
+      type: "observer",
+      action: "all",
+      payload: type,
     });
   }
 
@@ -46,7 +83,7 @@ export default function Home() {
             <span className="text-black">x{instances}</span>
           </h1>
           <p>
-            Navigate to this page in multiple browser tabs/windows and click the
+            Navigate to this page in multiple browser tabs/windows and click any
             button to see the{" "}
             <span className="inline-block cursor-pointer text-black underline transition-colors duration-1000 hover:text-white">
               <a
@@ -70,7 +107,7 @@ export default function Home() {
                   ? "bg-white text-black"
                   : "bg-black text-white"
               }`}
-              onClick={() => setMessageMode("all")}
+              onClick={() => handleClickMode("all")}
             >
               All
             </button>
@@ -80,7 +117,7 @@ export default function Home() {
                   ? "bg-white text-black"
                   : "bg-black text-white"
               }`}
-              onClick={() => setMessageMode("broadcast")}
+              onClick={() => handleClickMode("broadcast")}
             >
               Broadcast
             </button>
@@ -92,7 +129,7 @@ export default function Home() {
                   ? "bg-white text-black"
                   : "bg-black text-white"
               }`}
-              onClick={() => handleClick("bg-green-500")}
+              onClick={() => handleClickColor("bg-green-500")}
             >
               Green
             </button>
@@ -102,7 +139,7 @@ export default function Home() {
                   ? "bg-white text-black"
                   : "bg-black text-white"
               }`}
-              onClick={() => handleClick("bg-red-500")}
+              onClick={() => handleClickColor("bg-red-500")}
             >
               Red
             </button>
@@ -112,7 +149,7 @@ export default function Home() {
                   ? "bg-white text-black"
                   : "bg-black text-white"
               }`}
-              onClick={() => handleClick("bg-blue-500")}
+              onClick={() => handleClickColor("bg-blue-500")}
             >
               Blue
             </button>
@@ -122,7 +159,7 @@ export default function Home() {
                   ? "bg-white text-black"
                   : "bg-black text-white"
               }`}
-              onClick={() => handleClick("bg-yellow-500")}
+              onClick={() => handleClickColor("bg-yellow-500")}
             >
               Yellow
             </button>
