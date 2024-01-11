@@ -15,14 +15,31 @@ type BackgroundColor =
   | "bg-blue-500"
   | "bg-yellow-500";
 
+function getInitialBackgroundColor() {
+  const randomNumber = Math.floor(Math.random() * 3);
+
+  switch (randomNumber) {
+    case 0:
+      return "bg-red-500";
+    case 1:
+      return "bg-blue-500";
+    case 2:
+      return "bg-yellow-500";
+    // this should never happen
+    default:
+      return "bg-green-500";
+  }
+}
+
 export default function Home() {
-  const [bgColor, setBgColor] = useState<BackgroundColor>("bg-green-500");
+  const [bgColor, setBgColor] = useState<BackgroundColor>();
   const [messageMode, setMessageMode] = useState<ActionType>("all");
   const [instances, setInstances] = useState<number>();
 
   useEffect(() => {
     channel.registerCallback("set-bg-color", setBgColor);
     channel.onConnectionsUpdate(setInstances);
+    setBgColor(getInitialBackgroundColor());
 
     setInstances(channel.connections);
 
