@@ -43,24 +43,15 @@ export default function Home() {
 
     setInstances(channel.connections);
 
-    const observer1 = new ChannelObserver(channel, (message) => {
+    const observer1 = new ChannelObserver(anotherChannel, (message) => {
       const payload = message.payload as ActionType;
       if (payload) {
         setMessageMode(payload);
       }
     });
 
-    const observer2 = new ChannelObserver(
-      anotherChannel,
-      (message) => {
-        console.log("I'm observing messages with a custom key", message);
-      },
-      "custom",
-    );
-
     return () => {
       anotherChannel.subject.unsubscribe(observer1);
-      anotherChannel.subject.unsubscribe(observer2, "custom");
     };
   }, []);
 
